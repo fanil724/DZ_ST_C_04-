@@ -3,6 +3,7 @@
 #include "Matrix.hpp"
 #include "brackets.hpp"
 #include "queue.hpp"
+#include "taxi.hpp"
 
 int main() {
 //    const size_t size = 10;
@@ -37,33 +38,40 @@ int main() {
 //        std::cout << "Error, strpos: " << s2 + p << std::endl;
 //    return 0;
 
-    char symbol = 0;
-    Time time(12, 52, 35);
-    Users u = {"Igor", "Dombrovsky", 29, 35, &time, 15};
-    u.show();
-    Time time1(10, 24, 27);
-    Users u1 = {"Elena", "Petrova", 28, 78, &time1, 25};
-    u1.show();
-    Time time2(12, 52, 35);
-    Users u2 = {"Petro", "Trefaldo", 35, 15, &time2, 8};
-    u2.show();
-    std::cout << "Send document to printer enter [y]:" << std::endl;
-    std::cin >> symbol;
-    if (symbol == 'y') {
-        Queue<int> printer(3);
-        printer.addElement(u.getPriority());
-        printer.addElement(u1.getPriority());
-        printer.addElement(u2.getPriority());
-        printer.showQueue();
-        printer.deleteElementQueuePriority();
-        printer.showQueue();
-        printer.deleteElementQueuePriority();
-        printer.showQueue();
-        printer.deleteElementQueuePriority();
-        printer.showQueue();
-    } else {
-        std::cerr << "Error input!" << std::endl;
-    }
+//    char symbol = 0;
+//    Time time(12, 52, 35);
+//    Users u = {"Igor", "Dombrovsky", 29, 35, &time, 15};
+//    u.show();
+//    Time time1(10, 24, 27);
+//    Users u1 = {"Elena", "Petrova", 28, 78, &time1, 25};
+//    u1.show();
+//    Time time2(12, 52, 35);
+//    Users u2 = {"Petro", "Trefaldo", 35, 15, &time2, 8};
+//    u2.show();
+//    std::cout << "Send document to printer enter [y]:" << std::endl;
+//    std::cin >> symbol;
+//    if (symbol == 'y') {
+//        Queue<int> printer(3);
+//        printer.addElement(u.getPriority());
+//        printer.addElement(u1.getPriority());
+//        printer.addElement(u2.getPriority());
+//        printer.showQueue();
+//        printer.deleteElementQueuePriority();
+//        printer.showQueue();
+//        printer.deleteElementQueuePriority();
+//        printer.showQueue();
+//        printer.deleteElementQueuePriority();
+//        printer.showQueue();
+//    } else {
+//        std::cerr << "Error input!" << std::endl;
+//    }
+    
+    srand(time(NULL));
+    BusStop b;
+    b.CreateBus(20);
+    b.mainLoop();
+    cout << endl<<endl;
+    system("pause");
 
-    return 0;
+
 }
