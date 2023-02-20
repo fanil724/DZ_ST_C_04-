@@ -12,7 +12,7 @@ class People {
 public:
     People() {};
 
-    People(int t) : People() { this->next = next, this->tCome = t; };
+    People(int t) : People() { this->next = this->next->next, this->tCome = t; };
 
     People(People &&another) noexcept = default;
 
@@ -22,13 +22,12 @@ public:
     People *next;
     int tCome;
 
-    bool add(int t) {
+    void add(int t) {
         if (this->next != nullptr) {
             this->next->add(t);
         } else {
             this->next = new People(t);
         }
-        return true;
     }
 };
 
@@ -52,8 +51,8 @@ public:
     int countBigData;
     int waitBigData;
 
-    bool remove(int t) {
-        if (this->root == nullptr) { return false; }
+    void remove(int t) {
+        if (this->root == nullptr) { return; }
         People *tmp = this->root->next;
         this->countBigData++;
         this->countPeople--;
@@ -61,7 +60,7 @@ public:
         cout << t - this->root->tCome << " (" << this->waitBigData << " ) , ";
         delete this->root;
         this->root = tmp;
-        return true;
+
     }
 
     void away(int t, int c) {
@@ -106,7 +105,7 @@ public:
         switch (vs) {
             case Night:
                 min = 0;
-                max = 1;
+                max = 2;
                 break;
             case Morning:
                 min = 1;
@@ -120,10 +119,7 @@ public:
                 min = 3;
                 max = 5;
                 break;
-            default:
-                min = 0;
-                max = 0;
-                break;
+
         }
         return rand() % max + min;
     }
@@ -146,13 +142,12 @@ public:
 
     ~Bus() {}
 
-    bool changeData(int num, int interval[4]) {
+    void changeData(int num, int interval[4]) {
         for (int i = 0; i < 4; i++) {
             this->interval[i] = interval[i];
         }
         this->number = num;
         this->max = rand() % 10 + 10;
-        return true;
     }
 
     int getIntervalByPartDay(int t) {
@@ -180,9 +175,6 @@ public:
             case Evening:
                 interval = this->interval[Evening];
                 break;
-            default:
-                interval = 0;
-                break;
         }
         return interval;
     }
@@ -190,8 +182,9 @@ public:
     int getNumber() { return this->number; }
 
     int comeToBusStop(int t, int dt) {
-        this->waitTime = this->waitTime - dt;
-        if (this->waitTime > 0) return 0;
+        this->waitTime = this->waitTime-dt;
+        if (this->waitTime > 0)
+            return 0;
         this->waitTime = this->getIntervalByPartDay(t);
         return rand() % this->max + 1;
     }
@@ -224,11 +217,11 @@ public:
 
     Bus *bus;
     int countBus;
+    Peoples *peoples;
 
     void mainLoop() {
         int mest;
-        for (int t = 0; t < 5; t++) {
-            cout << ".";
+        for (int t = 1; t < 14; t++) {
             this->peoples->comeToBusStop(t, 1);
             for (int b = 0; b < countBus; b++) {
                 mest = this->bus[b].comeToBusStop(t, 1);
@@ -246,6 +239,6 @@ public:
         cout << "\n Average waiting time : " << (double) this->peoples->waitBigData / this->peoples->countBigData;
     }
 
-    Peoples *peoples;
+
 };
 
